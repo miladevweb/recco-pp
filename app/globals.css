@@ -1,0 +1,230 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: ABCRegular;
+  src: url(../public/fonts/ABCMonumentGrotesk-Regular.woff) format(woff);
+}
+@font-face {
+  font-family: ABCMedium;
+  src: url(../public/fonts/ABCMonumentGrotesk-Medium.woff) format(woff);
+}
+
+@layer base {
+  a {
+    @apply cursor-none;
+  }
+  html {
+    cursor: none;
+    scrollbar-width: none;
+  }
+  body {
+    @apply size-full overflow-x-hidden;
+  }
+  input[type='radio'] {
+    @apply hidden;
+  }
+}
+
+@layer components {
+  /*=============== CHAR ===============*/
+  .letter {
+    @apply inline-block;
+  }
+  /*=============== NAVBAR ===============*/
+  [data-nav='ul-container'] {
+    @apply transition-[column-gap] duration-[400ms] ease-[cubic-bezier(0.33,_1,_0.68,_1)];
+    li {
+      opacity: 0;
+      animation: showTextAfterHover 300ms 300ms ease-in forwards;
+    }
+  }
+  @keyframes showTextAfterHover {
+    to {
+      opacity: 1;
+    }
+  }
+
+  [data-nav='ul-container']:hover {
+    @apply gap-x-6;
+    [data-nav='arrow'] {
+      @apply -mr-3;
+    }
+    [data-nav='current-route'] {
+      @apply w-0 absolute;
+    }
+    [data-nav='hidden-routes'] {
+      @apply size-auto;
+    }
+    li {
+      opacity: 0;
+      animation: showTextOnHover 300ms 300ms ease-in forwards;
+    }
+  }
+  @keyframes showTextOnHover {
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Hidden Navbar */
+  nav [data-nav='ul-container'] {
+    animation: hiddenNav 1s linear forwards;
+    animation-timeline: scroll();
+    animation-range: 97% 98%;
+  }
+  @keyframes hiddenNav {
+    to {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  /*=============== CUSTOM CURSOR ===============*/
+  [data-cursor] {
+    --mix: normal;
+    mix-blend-mode: var(--mix);
+  }
+
+  /*=============== HERO SECTION ===============*/
+  [data-hero='container'] {
+    mask: linear-gradient(to bottom, white 75%, transparent);
+    video {
+      filter: contrast(150%) brightness(40%) sepia(15%);
+    }
+  }
+
+  /*=============== GRID SECTION ===============*/
+  [data-grid='container'] {
+    h4 {
+      @apply font-abc-medium font-semibold text-lg tracking-tight;
+    }
+  }
+
+  /*=============== SUSTAINABILITY SECTION ===============*/
+  label [data-sustainability='image-container'] {
+    @apply transition-[height] ease-[cubic-bezier(0.76,_0,_0.24,_1)] duration-500;
+  }
+  input[type='radio']:not(:checked) + label header > span {
+    @apply opacity-40;
+  }
+  input[type='radio']:not(:checked) + label [data-sustainability='image-container'] {
+    @apply h-0;
+  }
+
+  /*=============== MARQUEE SECTION ===============*/
+  [data-marquee='text-container'] {
+    animation: marquee 18s linear infinite forwards;
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-100%);
+    }
+  }
+}
+
+@layer utilities {
+  @media (max-width: 768px) {
+    /*=============== HERO SECTION ===============*/
+    [data-hero='header'] {
+      @apply text-[25vw];
+    }
+
+    /*=============== GRID SECTION ===============*/
+    [data-grid='container'] {
+      @apply px-4 grid-cols-1 text-pretty text-center py-10;
+      aside {
+        @apply leading-normal;
+        div > p {
+          @apply text-[5vw] leading-[130%] opacity-80;
+        }
+      }
+    }
+    [data-grid='title'] {
+      @apply text-[14vw] mb-5;
+    }
+    [data-grid='image-container'] {
+      @apply flex-col px-6 mt-10 mb-16;
+      & > div:nth-child(1) {
+        @apply h-[40vh] w-full mb-8;
+      }
+      & > div:nth-child(2) {
+        @apply justify-between gap-x-0;
+      }
+    }
+
+    /*=============== IMAGES SECTION ===============*/
+    [data-image] {
+      @apply object-left-bottom;
+    }
+
+    /*=============== OUR PROJECTS ===============*/
+    [data-our='container'] {
+      @apply px-4 my-10;
+    }
+    [data-our='text-parent-container'] {
+      @apply grid-cols-1 text-center;
+      & h3 {
+        @apply text-[10vw] font-medium tracking-tighter uppercase;
+      }
+    }
+    [data-our='text-child-container'] {
+      @apply grid-cols-1 mt-0;
+      p {
+        @apply text-[4vw] leading-[130%] opacity-80;
+      }
+    }
+    [data-our='image-container'] {
+      @apply grid-cols-1 [&_div]:max-h-[48vh] gap-y-2;
+      & img:nth-child(1) {
+        @apply mt-5;
+      }
+    }
+
+    /*=============== SUSTAINABILITY ===============*/
+    [data-sustainability='container'] {
+      @apply px-0 grid-cols-1 w-full justify-items-center;
+      article {
+        @apply px-4 mb-8;
+      }
+      article > header {
+        @apply text-[10vw] mb-0 text-center uppercase;
+      }
+      article > p {
+        @apply w-full text-[4vw] leading-[110%] opacity-80;
+      }
+    }
+    [data-sustainability='image-container'] {
+      @apply w-screen;
+    }
+
+    /*=============== ALWAYS SECTION ===============*/
+    [data-always='container'] {
+      @apply p-0 static flex-col items-center mt-5;
+      & > div:nth-child(1) {
+        @apply w-[70vw];
+      }
+    }
+    [data-always='text-container'] {
+      @apply text-center mt-5;
+    }
+
+    /*=============== MARQUEE SECTION ===============*/
+    [data-marquee='container'] {
+      @apply mt-10 h-[30vh];
+    }
+    [data-marquee='text-container'] {
+      @apply mt-2 pl-[50px];
+    }
+    [data-marquee='footer'] {
+      @apply mt-2 px-2 text-sm flex-col text-center;
+      div {
+        @apply flex-col;
+        span {
+          @apply -mt-1;
+        }
+      }
+    }
+  }
+}
